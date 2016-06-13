@@ -1,14 +1,14 @@
 from django.db import models
-from django.conf import settings
+from account.models import Profile
 
 
 class Question(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+    user = models.ForeignKey(Profile,
                              related_name='question_created_by')
     text = models.CharField(max_length=400)
     created_on = models.DateTimeField(auto_now_add=True,
                                       db_index=True)
-    users_like = models.ManyToManyField(settings.AUTH_USER_MODEL,
+    users_like = models.ManyToManyField(Profile,
                                         related_name='question_liked',
                                         blank=True)
 
@@ -21,17 +21,16 @@ class Question(models.Model):
 
 class Answer(models.Model):
     question = models.ForeignKey(Question)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+    user = models.ForeignKey(Profile,
                              related_name='answer_created_by')
     text = models.CharField(max_length=400)
     created_on = models.DateTimeField(auto_now_add=True)
-    users_like = models.ManyToManyField(settings.AUTH_USER_MODEL,
+    users_like = models.ManyToManyField(Profile,
                                         related_name='answer_liked',
                                         blank=True)
 
     class Meta:
         unique_together = (('question', 'user'), )
-        # ordering = ['-created_on']
 
     def get_likes(self):
         return self.users_like.count()
