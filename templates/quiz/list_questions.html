@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Quiz{% endblock %}
+
+{% block content %}
+    <script>
+        // Examples go here...
+        //var client = new $.RestClient('/api/quiz/');
+        //client.add('questions');
+
+        var client = new $.RestClient('/api/quiz/');
+
+        client.add('questions');
+
+        var request = client.questions.read();
+        request.done(function (data, textStatus, xhrObject){
+
+            for (i=0;i<data.length;i++){
+                var h = document.createElement("p");
+                var t = document.createTextNode(data[i].text);
+                h.appendChild(t);
+                div = document.getElementById("question_list");
+                div.appendChild(h);
+            }
+        });
+    </script>
+    <h1>Quiz</h1>
+    <p>Welcome to your quiz section.</p>
+    <div id="question_list"></div>
+    
+    
+{% endblock %}

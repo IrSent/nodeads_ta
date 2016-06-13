@@ -1,0 +1,36 @@
+Написать RESTFUL API для приложения типа опросник(ближайший аналог ask.fm)
+
+Написать обработчики для всех запросов типа: 
+- регистрация +
+- авторизация +
+- создать вопрос +
+- ответить на вопрос
+- проголосовать за (вопрос/ответ) и так же убрать голос(ближайший аналог - лайк)
+- удалить вопрос
+- редактировать ответ на вопрос
+- лог аут +
+Будет плюсом реализация простейшей клиенсткой части для демонстрации работоспособности серверной части приложения. +
+Использовать PostgreSQL + /MySQL.
+Настроить административную часть. 
+Задеплоить локально при помощи supervisor + nginx.
+Для написания REST API желательно использовать django rest framework или tastypie(на усмотрение разработчика)
+
+
+API:
+
+
+QUESTION
+===============================================
+curl http://mkhimich.com/api/question/
+
+curl -X GET    http://mkhimich.com/api/quiz/
+curl -X POST   http://mkhimich.com/api/quiz/    -d "{'text'='hello world'}"
+
+curl -X GET    http://mkhimich.com/api/quiz/questions/1
+curl -X PUT    http://mkhimich.com/api/quiz/questions/1   -d "{'text'='I've corrected this a bit'}"
+curl -X DELETE http://mkhimich.com/api/quiz/questions/1
+
+
+EXAMPLES:
+curl -X POST -H "Content-Type: application/json" -d '{"text":"xyz"}' -u someguy:ivanivan http://0.0.0.0:8081/questions/
+
