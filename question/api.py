@@ -15,6 +15,7 @@ from quickpoller import permissions as project_permissions
 
 # -------------------------- QUESTION ----------------------------
 
+@permission_classes((IsAuthenticated, ))
 @api_view(['GET', 'POST'])
 def question_list_or_post(request):
     """List all Questions or create a new one."""
@@ -26,7 +27,7 @@ def question_list_or_post(request):
     elif request.method == 'POST':
         serializer = QuestionSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save(user=request.user)
+            serializer.save(user=Profile.objects.get(user=request.user))
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
