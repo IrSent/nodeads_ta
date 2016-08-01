@@ -33,6 +33,16 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+WEBPACK_LOADER = {
+    'BUNDLE_DIR_NAME': 'bundles/',
+    'STATS_FILE': os.path.join(BASE_DIR, 'webpack-stats.json'),
+}
+
+if not DEBUG:
+    WEBPACK_LOADER.update({
+        'BUNDLE_DIR_NAME': 'dist/',
+        'STATS_FILE': os.path.join(BASE_DIR, 'webpack-stats-prod.json'),
+    })
 
 # Application definition
 
@@ -46,7 +56,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
-    'question'
+    'question',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -137,13 +147,14 @@ USE_TZ = True
 
 
 STATIC_URL = '/static/'
-# STATIC_ROOT = ''  # os.path.join(BASE_DIR, 'static')
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
 ]
-STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'), )
-# ------------------ DRF ---------------------- #
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),
+                    os.path.join(BASE_DIR, 'assets'), )
 
+
+# ------------------ DRF ---------------------- #
 REST_FRAMEWORK = {
     'DEFAULT_PARSER_CLASSES': (
         'rest_framework.parsers.JSONParser',
